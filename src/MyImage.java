@@ -83,9 +83,7 @@ public class MyImage {
 			for (int x = 0; x < getLargura(); x++) {
 
 				int rgbInteger = image.getRGB(x, y);
-
 				Color corPixel = new Color(rgbInteger);
-
 				int vermelho = corPixel.getRed();
 
 				frequencia[vermelho]++;
@@ -95,11 +93,7 @@ public class MyImage {
 	}
 
 	public void printaValores() {
-
-		for (int i = 0; i < frequencia.length; i++) {
-			System.out.println(frequencia[i]);
-		}
-
+for (int valor:	 frequencia) System.out.println(valor);
 	}
 
 	public int verificaLimites(int pixel){
