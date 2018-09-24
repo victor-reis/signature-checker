@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5c62458e-c251-4381-b1ee-24da28223f78" name="Default Changelist" comment="" />
+    <list default="true" id="5c62458e-c251-4381-b1ee-24da28223f78" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/MyImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyImage.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -54,12 +56,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="902" />
+          <entry key="java" value="1062" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="902" />
+          <entry key="JAVA" value="1062" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -96,8 +98,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MyImage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="413">
-              <caret line="230" lean-forward="true" selection-start-line="230" selection-end-line="230" />
+            <state relative-caret-position="120">
+              <caret line="16" column="77" selection-start-line="16" selection-start-column="77" selection-end-line="16" selection-end-column="77" />
               <folding>
                 <element signature="method#criaArquivo#0;class#MyImage#0" />
                 <element signature="method#carregaImagem#0;class#MyImage#0" />
@@ -105,23 +107,27 @@
                 <element signature="method#armazenaFrequencia#0;class#MyImage#0" />
                 <element signature="method#verificaLimites#0;class#MyImage#0" />
                 <element signature="method#alteraBrilho#0;class#MyImage#0" />
+                <element signature="method#filtraImagem#0;class#MyImage#0" />
                 <element signature="method#calculaMedia#0;class#MyImage#0" />
                 <element signature="method#calculaMediana#0;class#MyImage#0" />
                 <element signature="method#quantizacao#0;class#MyImage#0" />
                 <element signature="method#splitting#0;class#MyImage#0" />
+                <element signature="method#passaAlta#0;class#MyImage#0" />
                 <element signature="method#gradienteHV#0;class#MyImage#0" />
                 <element signature="method#gradienteHorizontal#0;class#MyImage#0" />
                 <element signature="method#gradienteVertical#0;class#MyImage#0" />
                 <element signature="method#sobelHorizontal#0;class#MyImage#0" />
                 <element signature="method#sobelVertical#0;class#MyImage#0" />
                 <element signature="method#sobelHV#0;class#MyImage#0" />
+                <element signature="method#preHorizontal#0;class#MyImage#0" />
+                <element signature="method#prewittHV#0;class#MyImage#0" />
                 <element signature="method#printHistograma#0;class#MyImage#0" />
                 <element signature="method#main#0;class#MyImage#0" />
                 <element signature="class#6265:6496" />
                 <element signature="method#actionPerformed#0;class#6265:6496" />
                 <element signature="class#6577:6672" />
-                <element signature="e#9887#9888#0" expanded="true" />
-                <element signature="e#9933#9934#0" expanded="true" />
+                <element signature="e#11231#11232#0" expanded="true" />
+                <element signature="e#11277#11278#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -239,6 +245,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="26" width="1148" height="1053" extended-state="4" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.5191676" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -254,7 +261,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3286638" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.3286638" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32901135" />
       <window_info anchor="bottom" id="Messages" order="10" />
@@ -297,8 +304,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MyImage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="413">
-          <caret line="230" lean-forward="true" selection-start-line="230" selection-end-line="230" />
+        <state relative-caret-position="120">
+          <caret line="16" column="77" selection-start-line="16" selection-start-column="77" selection-end-line="16" selection-end-column="77" />
           <folding>
             <element signature="method#criaArquivo#0;class#MyImage#0" />
             <element signature="method#carregaImagem#0;class#MyImage#0" />
@@ -306,23 +313,27 @@
             <element signature="method#armazenaFrequencia#0;class#MyImage#0" />
             <element signature="method#verificaLimites#0;class#MyImage#0" />
             <element signature="method#alteraBrilho#0;class#MyImage#0" />
+            <element signature="method#filtraImagem#0;class#MyImage#0" />
             <element signature="method#calculaMedia#0;class#MyImage#0" />
             <element signature="method#calculaMediana#0;class#MyImage#0" />
             <element signature="method#quantizacao#0;class#MyImage#0" />
             <element signature="method#splitting#0;class#MyImage#0" />
+            <element signature="method#passaAlta#0;class#MyImage#0" />
             <element signature="method#gradienteHV#0;class#MyImage#0" />
             <element signature="method#gradienteHorizontal#0;class#MyImage#0" />
             <element signature="method#gradienteVertical#0;class#MyImage#0" />
             <element signature="method#sobelHorizontal#0;class#MyImage#0" />
             <element signature="method#sobelVertical#0;class#MyImage#0" />
             <element signature="method#sobelHV#0;class#MyImage#0" />
+            <element signature="method#preHorizontal#0;class#MyImage#0" />
+            <element signature="method#prewittHV#0;class#MyImage#0" />
             <element signature="method#printHistograma#0;class#MyImage#0" />
             <element signature="method#main#0;class#MyImage#0" />
             <element signature="class#6265:6496" />
             <element signature="method#actionPerformed#0;class#6265:6496" />
             <element signature="class#6577:6672" />
-            <element signature="e#9887#9888#0" expanded="true" />
-            <element signature="e#9933#9934#0" expanded="true" />
+            <element signature="e#11231#11232#0" expanded="true" />
+            <element signature="e#11277#11278#0" expanded="true" />
           </folding>
         </state>
       </provider>

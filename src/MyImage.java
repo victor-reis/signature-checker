@@ -14,6 +14,7 @@ public class MyImage {
     public static int RESOLUCAO_DE_CONTRASTE = 255;
     public static int[][] MASCARA_DE_SOBEL = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};
     public static int[][] MASCARA_DE_PREWITT = {{1,0, 1}, {0, 0, 0}, {-1, -1, -1}};
+    public static int[][] MASCARA_DE_PASSA_ALTA = {{-1,-1,-1}, {-1,8,-1}, {-1, -1, -1}};
     int largura = 640;
     int altura = 378;
     BufferedImage image = null;
@@ -212,6 +213,16 @@ public class MyImage {
 
     public int equalizacao() {
         return 0;
+    }
+
+    public int passaAlta(int[][] imgOrigin, int col, int lin){
+        int pixel = 0;
+        for (int linha = 0; linha < 3; linha++)
+            for (int coluna = 0; coluna < 3; coluna++)
+                pixel = imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_DE_PASSA_ALTA[coluna][linha];
+
+        verificaLimites(pixel);
+        return pixel;
     }
 
     public int gradienteHV(int[][] imgOrigin, int col, int lin) {
