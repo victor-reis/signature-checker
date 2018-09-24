@@ -130,7 +130,7 @@ public class MyImage {
 
     }
 
-    public BufferedImage filtraImagem(String tipoDeFiltro, int valorAuxiliar) {
+    public void filtraImagem(String tipoDeFiltro, int valorAuxiliar) {
         int[][] imgOrigin = new int[getAltura()][getLargura()];
         int[][] imgDestino = new int[getAltura()][getLargura()];
 
@@ -162,12 +162,28 @@ public class MyImage {
                     case "gradiente":
                         imgDestino[lin][col] = gradienteHV(imgOrigin, col, lin);
                         break;
+					case "gradienteHorizontal":
+						imgDestino[lin][col] = gradienteHorizontal(imgOrigin, col, lin);
+						break;
+					case "gradienteVertical":
+						imgDestino[lin][col] = gradienteVertical(imgOrigin, col, lin);
+						break;
                     case "sobel":
                         imgDestino[lin][col] = sobelHV(imgOrigin, col, lin);
                         break;
+					case "sobelHorizontal":
+						imgDestino[lin][col] = sobelHorizontal(imgOrigin, col, lin);
+						break;
+					case "sobelVertical":
+						imgDestino[lin][col] = sobelVertical(imgOrigin, col, lin);
+						break;
                     case "prewitt":
                         imgDestino[lin][col] = prewittHV(imgOrigin, col, lin);
                         break;
+					case "passaAlta":
+						imgDestino[lin][col] = passaAlta(imgOrigin, col, lin);
+						break;
+
                 }
         for (int lin = 1; lin < getAltura() - 2; lin++) {
             for (int col = 1; col < getLargura() - 2; col++) {
@@ -175,8 +191,7 @@ public class MyImage {
                 image.setRGB(col, lin, novoPixel.getRGB());
             }
         }
-        return image;
-    }
+       }
 
     public int calculaMedia(int[][] imgOrigin, int col, int lin) {
         int soma = 0;
@@ -219,23 +234,20 @@ public class MyImage {
         int pixel = 0;
         for (int linha = 0; linha < 3; linha++)
             for (int coluna = 0; coluna < 3; coluna++)
-                pixel = imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_DE_PASSA_ALTA[coluna][linha];
+                pixel += imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_DE_PASSA_ALTA[coluna][linha];
 
-        verificaLimites(pixel);
-        return pixel;
+		return verificaLimites(pixel);
     }
 
     public int gradienteHV(int[][] imgOrigin, int col, int lin) {
         int pixel = Math.abs(imgOrigin[lin][col] - imgOrigin[lin][col + 1])
                 + Math.abs(imgOrigin[lin][col] - imgOrigin[lin + 1][col]);
-        pixel = verificaLimites(pixel);
-        return pixel;
+		return verificaLimites(pixel);
     }
 
     public int gradienteHorizontal(int[][] imgOrigin, int col, int lin) {
         int pixel = Math.abs(imgOrigin[lin][col] - imgOrigin[lin][col + 1]);
-        pixel = verificaLimites(pixel);
-        return pixel;
+		return verificaLimites(pixel);
     }
 
     public int gradienteVertical(int[][] imgOrigin, int col, int lin) {
@@ -248,64 +260,55 @@ public class MyImage {
         int pixelAltura = 0;
         for (int linha = 0; linha < 3; linha++)
             for (int coluna = 0; coluna < 3; coluna++)
-                pixelAltura = imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_DE_SOBEL[linha][coluna];
+                pixelAltura += imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_DE_SOBEL[linha][coluna];
 
 
-        verificaLimites(pixelAltura);
-        return pixelAltura;
+		return verificaLimites(pixelAltura);
     }
 
     public int sobelVertical(int[][] imgOrigin, int col, int lin){
         int pixelLargura = 0;
             for (int linha = 0; linha < 3; linha++)
                 for (int coluna = 0; coluna < 3; coluna++)
-                    pixelLargura = imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_DE_SOBEL[coluna][linha];
+                    pixelLargura += imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_DE_SOBEL[coluna][linha];
 
-            verificaLimites(pixelLargura);
-        return pixelLargura;
+		return verificaLimites(pixelLargura);
     }
 
     public int sobelHV(int[][] imgOrigin, int col, int lin) {
 
-        int novoPixel;
+        int novoPixel, px,py;
+		px = sobelHorizontal(imgOrigin, col, lin)/4;
+		py = sobelVertical(imgOrigin, col, lin) /4;
+		novoPixel = (px + py)/2;
 
-        novoPixel = (sobelHorizontal(imgOrigin, col, lin)/4 + sobelVertical(imgOrigin, col, lin) /4 ) /2;
-
-        verificaLimites(novoPixel);
-
-        return novoPixel;
+		return verificaLimites(novoPixel);
     }
 
     public int prewittHorizontal(int[][] imgOrigin, int col, int lin){
         int pixelAltura = 0;
         for (int linha = 0; linha < 3; linha++)
             for (int coluna = 0; coluna < 3; coluna++)
-                pixelAltura = imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_DE_PREWITT[linha][coluna];
+                pixelAltura += imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_DE_PREWITT[linha][coluna];
 
-
-        verificaLimites(pixelAltura);
-        return pixelAltura;
+		return verificaLimites(pixelAltura);
     }
 
     public int prewittVertical(int[][] imgOrigin, int col, int lin){
         int pixelLargura = 0;
         for (int linha = 0; linha < 3; linha++)
             for (int coluna = 0; coluna < 3; coluna++)
-                pixelLargura = imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_DE_PREWITT[coluna][linha];
+                pixelLargura += imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_DE_PREWITT[coluna][linha];
 
-        verificaLimites(pixelLargura);
-        return pixelLargura;
+		return verificaLimites(pixelLargura);
     }
 
     public int prewittHV(int[][] imgOrigin, int col, int lin) {
 
         int novoPixel;
 
-        novoPixel = (sobelHorizontal(imgOrigin, col, lin)/4 + sobelVertical(imgOrigin, col, lin) /4 ) /2;
-
-        verificaLimites(novoPixel);
-
-        return novoPixel;
+        novoPixel = (prewittHorizontal(imgOrigin, col, lin)/4 + prewittVertical(imgOrigin, col, lin) /4 ) /2;
+		return verificaLimites(novoPixel);
     }
 
     public void printHistograma() {
@@ -325,9 +328,9 @@ public class MyImage {
         imagemFiltrada.setTipo("Tratada");
         imagemFiltrada.criaArquivo();
         imagemFiltrada.carregaImagem();
-        imagemFiltrada.filtraImagem("gradiente", 0);
+		imagemFiltrada.filtraImagem("prewitt", 0);
 
-        imagemFiltrada.printHistograma();
+		imagemFiltrada.printHistograma();
         imagemOriginal.printHistograma();
 
         ImageIcon imageIcon = new ImageIcon(imagemOriginal.image);
@@ -336,35 +339,17 @@ public class MyImage {
         ImageIcon imageIcon1 = new ImageIcon(imagemFiltrada.image);
         JLabel jlabel1 = new JLabel(imageIcon1);
 
-        JButton botaoCarregar = new JButton("Tratar imagem");
-        botaoCarregar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("aa");
-                imagemOriginal.filtraImagem("mediana", 0);
-                imagemOriginal.filtraImagem("media", 0);
-                imagemOriginal.escreveImagem();
-            }
-        });
-
-        JButton botaoSair = new JButton("Sair");
-        botaoSair.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
 
         JPanel painel = new JPanel();
         painel.add(jlabel);
         painel.add(jlabel1);
-        painel.add(botaoCarregar);
-        painel.add(botaoSair);
 
 
         JFrame janela = new JFrame("Computação gráfica");
 
         janela.add(painel);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        janela.setSize(1150, 500);
+       // janela.setSize(1150, 500);
         janela.pack();
         janela.setVisible(true);
     }
