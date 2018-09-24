@@ -15,20 +15,26 @@ public class BarPlotHistogram {
 //http://stackoverflow.com/a/12520104/714968
 
     public static void main(String[] args) {
+//        EventQueue.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                new BarPlotHistogram();
+//            }
+//        });
     }
 
-    public BarPlotHistogram(int[] frequencia) {
+    public BarPlotHistogram(int[] frequencia, String tipo) {
 
         Map<Integer, Integer> mapHistory = new TreeMap<Integer, Integer>();
 
-            for (int r = 0; r < frequencia.length; r++) {
-                int value = r;
-                int amount = frequencia[r];
+        for (int r = 0; r < frequencia.length; r++) {
+            int value = r;
+            int amount = frequencia[r];
 
-                mapHistory.put(value, amount);
-            }
+            mapHistory.put(value, amount);
+        }
 
-        JFrame frame = new JFrame("Test");
+        JFrame frame = new JFrame(tipo);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.add(new JScrollPane(new Graph(mapHistory)));
@@ -79,6 +85,7 @@ public class BarPlotHistogram {
                             / (float) maxValue) * height);
                     g2d.setColor(new Color(key, key, key));
                     int yPos = height + yOffset - barHeight;
+//Rectangle bar = new Rectangle(xPos, yPos, barWidth, barHeight);
                     Rectangle2D bar = new Rectangle2D.Float(
                             xPos, yPos, barWidth, barHeight);
                     g2d.fill(bar);
