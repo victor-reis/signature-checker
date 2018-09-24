@@ -158,6 +158,9 @@ public class MyImage {
 					case "quantizacao":
 						imgDestino[lin][col] = quantizacao(imgOrigin[lin][col], novaResolucao);
 						break;
+					case "split":
+						imgDestino[lin][col] = splitting(imgOrigin[lin][col], novaResolucao);
+						break;
 				}
 		for (int lin = 1; lin < getAltura() - 2; lin++) {
 			for (int col = 1; col < getLargura() - 2; col++) {
@@ -197,6 +200,10 @@ public class MyImage {
 		return pixel;
 	}
 
+	public int splitting(int pixel, int jump){
+		return (pixel > RESOLUCAO_DE_CONTRASTE/2)? verificaLimites(pixel + jump) :verificaLimites(pixel - jump);
+	}
+
 	public void printHistograma() {
 		armazenaFrequencia();
 		BarPlotHistogram hist = new BarPlotHistogram(frequencia, tipo);
@@ -214,7 +221,7 @@ public class MyImage {
 		imagemFiltrada.setTipo("Tratada");
 		imagemFiltrada.criaArquivo();
 		imagemFiltrada.carregaImagem();
-		imagemFiltrada.filtraImagem("quantizacao",2);
+		imagemFiltrada.filtraImagem("split",70);
 
 		imagemFiltrada.printHistograma();
 		imagemOriginal.printHistograma();
