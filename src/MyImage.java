@@ -10,8 +10,9 @@ import javax.swing.*;
 
 public class MyImage {
 
-	int largura = 960;
-	int altura = 640;
+	public static int RESOLUCAO_DE_CONTRASTE = 255;
+	int largura = 640;
+	int altura = 378;
 	BufferedImage image = null;
 	File diretorio = null;
 	int frequencia[] = new int[256];
@@ -42,7 +43,7 @@ public class MyImage {
 
 		try {
 
-			diretorio = new File("/home/victor/praiaCinza");
+			diretorio = new File("/home/victor-reis/Pictures/bwimg.jpg");
 			System.out.println("Arquivo lido com sucesso!");
 		} catch (Exception e) {
 			System.out.println("Arquivo nao existe ou diretorio eh invalido!");
@@ -65,7 +66,7 @@ public class MyImage {
 	public void escreveImagem() {
 		try {
 			// Output file path
-			File output_file = new File("/home/victor/saidaComButton");
+			File output_file = new File("/home/victor-reis/Pictures/");
 
 			// Writing to file taking type and path as
 			ImageIO.write(image, "jpg", output_file);
@@ -101,6 +102,15 @@ public class MyImage {
 
 	}
 
+	public int verificaLimites(int pixel){
+		if(pixel > RESOLUCAO_DE_CONTRASTE){
+			pixel = RESOLUCAO_DE_CONTRASTE;
+		}else if (pixel < 0){
+			pixel = 0;
+		}
+		return pixel;
+	}
+
 	public void alteraBrilho(int valor) {
 		for (int y = 0; y < getAltura(); y++) {
 			for (int x = 0; x < getLargura(); x++) {
@@ -111,12 +121,9 @@ public class MyImage {
 				int vermelho = corPixel.getRed() + valor;
 				int azul = corPixel.getBlue() + valor;
 				int verde = corPixel.getGreen() + valor;
-				if (vermelho < 0) vermelho = 0;
-				if (verde < 0) verde = 0;
-				if (azul < 0) azul = 0;
-				if (vermelho > 254) vermelho = 254;
-				if (verde > 254) verde = 254;
-				if (azul > 254) azul = 254;
+				vermelho = verificaLimites(vermelho);
+				azul = verificaLimites(azul);
+				verde = verificaLimites(verde);
 
 				Color novoPixel = new Color(verde, vermelho, azul);
 				image.setRGB(x, y, novoPixel.getRGB());
@@ -125,7 +132,7 @@ public class MyImage {
 
 	}
 
-	public BufferedImage filtraImagem(String tipoDeFiltro) {
+	public BufferedImage filtraImagem(String tipoDeFiltro, int novaResolucao) {
 		int[][] imgOrigin = new int[getAltura()][getLargura()];
 		int[][] imgDestino = new int[getAltura()][getLargura()];
 
@@ -147,6 +154,9 @@ public class MyImage {
 						break;
 					case "mediana":
 						imgDestino[lin][col] = calculaMediana(imgOrigin, col, lin);
+						break;
+					case "quantizacao":
+						imgDestino[lin][col] = quantizacao(imgOrigin[lin][col], novaResolucao);
 						break;
 				}
 		for (int lin = 1; lin < getAltura() - 2; lin++) {
@@ -180,6 +190,13 @@ public class MyImage {
 		return mediana.get(4);
 	}
 
+	public int quantizacao(int pixel, int novaResolucao){
+		int intervalo = RESOLUCAO_DE_CONTRASTE / novaResolucao;
+		pixel = pixel / intervalo;
+		pixel = verificaLimites(pixel  * intervalo);
+		return pixel;
+	}
+
 	public void printHistograma() {
 		armazenaFrequencia();
 		BarPlotHistogram hist = new BarPlotHistogram(frequencia, tipo);
@@ -190,18 +207,14 @@ public class MyImage {
 
 		MyImage imagemOriginal = new MyImage();
 		imagemOriginal.setTipo("Original");
-		imagemOriginal.setLargura(512);
-		imagemOriginal.setAltura(384);
 		imagemOriginal.criaArquivo();
 		imagemOriginal.carregaImagem();
 
 		MyImage imagemFiltrada = new MyImage();
 		imagemFiltrada.setTipo("Tratada");
-		imagemFiltrada.setLargura(512);
-		imagemFiltrada.setAltura(384);
 		imagemFiltrada.criaArquivo();
 		imagemFiltrada.carregaImagem();
-		imagemFiltrada.filtraImagem("media");
+		imagemFiltrada.filtraImagem("quantizacao",2);
 
 		imagemFiltrada.printHistograma();
 		imagemOriginal.printHistograma();
@@ -216,8 +229,8 @@ public class MyImage {
 		botaoCarregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("aa");
-				imagemOriginal.filtraImagem("mediana");
-				imagemOriginal.filtraImagem("media");
+				imagemOriginal.filtraImagem("mediana",0);
+				imagemOriginal.filtraImagem("media",0);
 				imagemOriginal.escreveImagem();
 			}
 		});
@@ -241,7 +254,7 @@ public class MyImage {
 		janela.add(painel);
 		janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		janela.setSize(1150, 500);
-		//janela.pack();
+		janela.pack();
 		janela.setVisible(true);
 	}
 }
