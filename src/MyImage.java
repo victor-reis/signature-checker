@@ -13,6 +13,7 @@ public class MyImage {
 
     public static int RESOLUCAO_DE_CONTRASTE = 255;
     public static int[][] MASCARA_DE_SOBEL = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};
+    public static int[][] MASCARA_DE_PREWITT = {{1,0, 1}, {0, 0, 0}, {-1, -1, -1}};
     int largura = 640;
     int altura = 378;
     BufferedImage image = null;
@@ -163,6 +164,9 @@ public class MyImage {
                     case "sobel":
                         imgDestino[lin][col] = sobelHV(imgOrigin, col, lin);
                         break;
+                    case "prewitt":
+                        imgDestino[lin][col] = prewittHV(imgOrigin, col, lin);
+                        break;
                 }
         for (int lin = 1; lin < getAltura() - 2; lin++) {
             for (int col = 1; col < getLargura() - 2; col++) {
@@ -251,6 +255,38 @@ public class MyImage {
     }
 
     public int sobelHV(int[][] imgOrigin, int col, int lin) {
+
+        int novoPixel;
+
+        novoPixel = (sobelHorizontal(imgOrigin, col, lin)/4 + sobelVertical(imgOrigin, col, lin) /4 ) /2;
+
+        verificaLimites(novoPixel);
+
+        return novoPixel;
+    }
+
+    public int prewittHorizontal(int[][] imgOrigin, int col, int lin){
+        int pixelAltura = 0;
+        for (int linha = 0; linha < 3; linha++)
+            for (int coluna = 0; coluna < 3; coluna++)
+                pixelAltura = imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_DE_PREWITT[linha][coluna];
+
+
+        verificaLimites(pixelAltura);
+        return pixelAltura;
+    }
+
+    public int prewittVertical(int[][] imgOrigin, int col, int lin){
+        int pixelLargura = 0;
+        for (int linha = 0; linha < 3; linha++)
+            for (int coluna = 0; coluna < 3; coluna++)
+                pixelLargura = imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_DE_PREWITT[coluna][linha];
+
+        verificaLimites(pixelLargura);
+        return pixelLargura;
+    }
+
+    public int prewittHV(int[][] imgOrigin, int col, int lin) {
 
         int novoPixel;
 
