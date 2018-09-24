@@ -126,7 +126,7 @@ for (int valor:	 frequencia) System.out.println(valor);
 
 	}
 
-	public BufferedImage filtraImagem(String tipoDeFiltro, int novaResolucao) {
+	public BufferedImage filtraImagem(String tipoDeFiltro, int valorAuxiliar) {
 		int[][] imgOrigin = new int[getAltura()][getLargura()];
 		int[][] imgDestino = new int[getAltura()][getLargura()];
 
@@ -150,10 +150,13 @@ for (int valor:	 frequencia) System.out.println(valor);
 						imgDestino[lin][col] = calculaMediana(imgOrigin, col, lin);
 						break;
 					case "quantizacao":
-						imgDestino[lin][col] = quantizacao(imgOrigin[lin][col], novaResolucao);
+						imgDestino[lin][col] = quantizacao(imgOrigin[lin][col], valorAuxiliar);
 						break;
 					case "split":
-						imgDestino[lin][col] = splitting(imgOrigin[lin][col], novaResolucao);
+						imgDestino[lin][col] = splitting(imgOrigin[lin][col], valorAuxiliar);
+						break;
+					case "gradiente":
+						imgDestino[lin][col] = gradiente(imgOrigin, col, lin);
 						break;
 				}
 		for (int lin = 1; lin < getAltura() - 2; lin++) {
@@ -198,6 +201,15 @@ for (int valor:	 frequencia) System.out.println(valor);
 		return (pixel > RESOLUCAO_DE_CONTRASTE/2)? verificaLimites(pixel + jump) :verificaLimites(pixel - jump);
 	}
 
+	public int equalizacao(){return 0;}
+
+	public int gradiente(int[][] imgOrigin, int col, int lin){
+		int pixel = Math.abs(imgOrigin[lin][col] - imgOrigin[lin][col + 1])
+				+ Math.abs(imgOrigin[lin][col] - imgOrigin[lin + 1][col]);
+		pixel = verificaLimites(pixel);
+		return pixel;
+	}
+
 	public void printHistograma() {
 		armazenaFrequencia();
 		BarPlotHistogram hist = new BarPlotHistogram(frequencia, tipo);
@@ -215,7 +227,7 @@ for (int valor:	 frequencia) System.out.println(valor);
 		imagemFiltrada.setTipo("Tratada");
 		imagemFiltrada.criaArquivo();
 		imagemFiltrada.carregaImagem();
-		imagemFiltrada.filtraImagem("split",70);
+		imagemFiltrada.filtraImagem("gradiente",0);
 
 		imagemFiltrada.printHistograma();
 		imagemOriginal.printHistograma();
