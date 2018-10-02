@@ -12,9 +12,18 @@ public class MyImage {
 
 
     public static int RESOLUCAO_DE_CONTRASTE = 255;
+    public static int VIZINHA = 2;
     public static int[][] MASCARA_DE_SOBEL = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};
     public static int[][] MASCARA_DE_PREWITT = {{1,0, 1}, {0, 0, 0}, {-1, -1, -1}};
     public static int[][] MASCARA_DE_PASSA_ALTA = {{-1,-1,-1}, {-1,8,-1}, {-1, -1, -1}};
+    public static int[][] MASCARA_HORIZONTAL = {{-1,-1,-1},{2,2,2},{-1,-1,-1}};
+    public static int[][] MASCARA_VERTICAL =    {{-1,2,-1},{-1,2,-1},{-1,2,-1}};
+    public static int[][] MASCARA_45_POSITIVO = {{-1,-1,2},{-1,2,-1},{2,-1,-1}};
+    public static int[][] MASCARA_45_NEGATIVO = {{2,-1,-1},{-1,2,-1},{-1,-1,2}};
+    public static int[][] MASCARA_LAPLACIANO = {{0,-1,0},{-1,4,-1},{0,-1,0}};
+
+    public static double CONSTANTE_DIFERENCA = 1;
+
     int largura = 640;
     int altura = 378;
     BufferedImage image = null;
@@ -47,7 +56,7 @@ public class MyImage {
 
         try {
 
-            diretorio = new File("/home/victor-reis/Pictures/bwimg.jpg");
+            diretorio = new File("/home/victor-reis/Pictures/Untitled.png");
             System.out.println("Arquivo lido com sucesso!");
         } catch (Exception e) {
             System.out.println("Arquivo nao existe ou diretorio eh invalido!");
@@ -65,6 +74,7 @@ public class MyImage {
         } catch (IllegalArgumentException iae) {
             System.out.println("A largura e Altura devem ser maiores do que 0!!!");
         }
+        armazenaFrequencia();
     }
 
     public void escreveImagem() {
@@ -94,6 +104,14 @@ public class MyImage {
             }
         }
 
+    }
+
+    public int menorFrequencia(){
+     int menorValor = RESOLUCAO_DE_CONTRASTE;
+        for (int x = 0; x < RESOLUCAO_DE_CONTRASTE; x++){
+            if (frequencia[x] <= menorValor) menorValor = frequencia[x];
+        }
+      return menorValor;
     }
 
     public void printaValores() {
@@ -130,9 +148,14 @@ public class MyImage {
 
     }
 
-    public void filtraImagem(String tipoDeFiltro, int valorAuxiliar) {
+    public void filtraImagem(String tipoDeFiltro, double valorAuxiliar) {
         int[][] imgOrigin = new int[getAltura()][getLargura()];
         int[][] imgDestino = new int[getAltura()][getLargura()];
+
+        VIZINHA = VIZINHA/2;
+        int alturaVizinha = getAltura() - VIZINHA - 1;
+        int larguraVizinha = getLargura() - VIZINHA - 1;
+
 
         for (int lin = 0; lin < getAltura(); lin++) {
             for (int col = 0; col < getLargura(); col++) {
@@ -144,20 +167,20 @@ public class MyImage {
 
             }
         }
-        for (int lin = 1; lin < getAltura() - 2; lin++)
-            for (int col = 1; col < getLargura() - 2; col++)
+        for (int lin = VIZINHA; lin < alturaVizinha; lin++)
+            for (int col = VIZINHA; col < larguraVizinha; col++)
                 switch (tipoDeFiltro) {
                     case "media":
-                        imgDestino[lin][col] = calculaMedia(imgOrigin, col, lin);
+                        imgDestino[lin][col] = (int)calculaMedia(imgOrigin, col, lin);
                         break;
                     case "mediana":
                         imgDestino[lin][col] = calculaMediana(imgOrigin, col, lin);
                         break;
                     case "quantizacao":
-                        imgDestino[lin][col] = quantizacao(imgOrigin[lin][col], valorAuxiliar);
+                        imgDestino[lin][col] = quantizacao(imgOrigin[lin][col], (int)valorAuxiliar);
                         break;
                     case "split":
-                        imgDestino[lin][col] = splitting(imgOrigin[lin][col], valorAuxiliar);
+                        imgDestino[lin][col] = splitting(imgOrigin[lin][col], (int) valorAuxiliar);
                         break;
                     case "gradiente":
                         imgDestino[lin][col] = gradienteHV(imgOrigin, col, lin);
@@ -183,6 +206,15 @@ public class MyImage {
 					case "passaAlta":
 						imgDestino[lin][col] = passaAlta(imgOrigin, col, lin);
 						break;
+                    case "limiar":
+                        imgDestino[lin][col] = limiarizacao(imgOrigin,col,lin,valorAuxiliar);
+                        break;
+                    case "limiarMedia":
+                        imgDestino[lin][col] = limiarizacaoMedia(imgOrigin, col, lin);
+                        break;
+                    case "limiarDinamica":
+                        imgDestino[lin][col] = limiarizacaoDinamica(imgOrigin, col, lin);
+                        break;
 
                 }
         for (int lin = 1; lin < getAltura() - 2; lin++) {
@@ -193,13 +225,14 @@ public class MyImage {
         }
        }
 
-    public int calculaMedia(int[][] imgOrigin, int col, int lin) {
+    public double calculaMedia(int[][] imgOrigin, int col, int lin) {
         int soma = 0;
-        for (int c = col - 1; c <= col + 1; c++)
-            for (int l = lin - 1; l <= lin + 1; l++)
+        for (int c = col - VIZINHA; c <= col + VIZINHA; c++)
+            for (int l = lin - VIZINHA; l <= lin + VIZINHA; l++)
                 soma += imgOrigin[l][c];
 
-        int media = soma / 9;
+        double media = (VIZINHA*2)+1;
+        media = soma /(media*media);
 
         return media;
     }
@@ -227,6 +260,9 @@ public class MyImage {
     }
 
     public int equalizacao() {
+        int numeroIdeal = (altura * largura) / RESOLUCAO_DE_CONTRASTE;
+
+
         return 0;
     }
 
@@ -246,12 +282,12 @@ public class MyImage {
     }
 
     public int gradienteHorizontal(int[][] imgOrigin, int col, int lin) {
-        int pixel = Math.abs(imgOrigin[lin][col] - imgOrigin[lin][col + 1]);
+        int pixel = -imgOrigin[lin][col] - imgOrigin[lin][col + 1] + imgOrigin[lin+1][col] + imgOrigin[lin+1][col+1];
 		return verificaLimites(pixel);
     }
 
     public int gradienteVertical(int[][] imgOrigin, int col, int lin) {
-        int pixel = Math.abs(imgOrigin[lin][col] - imgOrigin[lin + 1][col]);
+        int pixel = Math.abs(- imgOrigin[lin][col] + imgOrigin[lin][col + 1] - imgOrigin[lin + 1][col] + imgOrigin[lin+1][col+1]);
         pixel = verificaLimites(pixel);
         return pixel;
     }
@@ -312,12 +348,26 @@ public class MyImage {
     }
 
     public void printHistograma() {
-        armazenaFrequencia();
         BarPlotHistogram hist = new BarPlotHistogram(frequencia, tipo);
+    }
 
+    public int limiarizacao(int[][] imgOrigin, int col, int lin, double limiar){
+       return (imgOrigin[lin][col] > limiar)
+               ?RESOLUCAO_DE_CONTRASTE
+               :0;
+    }
+
+    public int limiarizacaoMedia(int[][] imgOrigin, int col, int lin){
+        return  limiarizacao(imgOrigin,col,lin ,CONSTANTE_DIFERENCA * calculaMedia(imgOrigin,col, lin));
+    }
+
+    public int limiarizacaoDinamica (int[][] imgOrigin, int col, int lin){
+        int dinamico = (lin >= getAltura()/2)? 2:1;
+        return limiarizacao(imgOrigin,col,lin ,dinamico * CONSTANTE_DIFERENCA * calculaMedia(imgOrigin,col, lin));
     }
 
     public static void main(String args[]) throws IOException {
+
 
         MyImage imagemOriginal = new MyImage();
         imagemOriginal.setTipo("Original");
@@ -328,7 +378,12 @@ public class MyImage {
         imagemFiltrada.setTipo("Tratada");
         imagemFiltrada.criaArquivo();
         imagemFiltrada.carregaImagem();
-		imagemFiltrada.filtraImagem("prewitt", 0);
+//        int menorFrequencia = imagemOriginal.menorFrequencia();
+//        System.out.println(menorFrequencia + "XXXXX");
+
+		imagemFiltrada.filtraImagem("limiarDinamica",0);
+
+		imagemOriginal.printaValores();
 
 		imagemFiltrada.printHistograma();
         imagemOriginal.printHistograma();
