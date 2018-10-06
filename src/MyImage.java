@@ -227,6 +227,9 @@ public class MyImage {
                     case "limiarDinamica":
                         imgDestino[lin][col] = limiarizacaoDinamica(imgOrigin, col, lin);
                         break;
+                    case "limiarPassaAlta":
+                        imgDestino[lin][col] = limiarizacao(imgOrigin,col,lin,valorAuxiliar);
+                        break;
 
                 }
         for (int lin = 1; lin < getAltura() - 2; lin++) {
@@ -380,6 +383,11 @@ public class MyImage {
         return limiarizacao(imgOrigin,col,lin ,dinamico * CONSTANTE_DIFERENCA * calculaMedia(imgOrigin,col, lin));
     }
 
+    public int limiarizacaoPassaAlta (int[][] imgOrigin, int col, int lin, int limiar){
+        int pixelPassaAlta = passaAlta(imgOrigin,col,lin);
+        return (pixelPassaAlta > limiar) ? pixelPassaAlta : 0;
+        }
+
     public static void main(String args[]) throws IOException {
 
 
@@ -393,7 +401,7 @@ public class MyImage {
         imagemFiltrada.criaArquivo();
         imagemFiltrada.carregaImagem();
 
-        imagemFiltrada.filtraImagem("equalizacao",0);
+        imagemFiltrada.filtraImagem("limiarPassaAlta",100);
 
         ImageIcon imageIcon = new ImageIcon(imagemOriginal.image);
         JLabel jlabel = new JLabel(imageIcon);
