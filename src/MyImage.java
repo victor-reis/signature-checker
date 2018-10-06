@@ -29,6 +29,7 @@ public class MyImage {
     BufferedImage image = null;
     File diretorio = null;
     int frequencia[] = new int[256];
+    int frequenciaAcumulada[] = new int[256];
 
     String tipo;
 
@@ -55,13 +56,11 @@ public class MyImage {
     public boolean criaArquivo() {
 
         try {
-
-            diretorio = new File("/home/victor-reis/Pictures/Untitled.png");
+            diretorio = new File("/home/victor-reis/Pictures/bwimg.jpg");
             System.out.println("Arquivo lido com sucesso!");
         } catch (Exception e) {
             System.out.println("Arquivo nao existe ou diretorio eh invalido!");
         }
-
         return true;
 
     }
@@ -103,6 +102,16 @@ public class MyImage {
                 frequencia[vermelho]++;
             }
         }
+
+        frequenciaAcumulada();
+
+    }
+
+    public void frequenciaAcumulada(){
+
+        frequenciaAcumulada[0] = frequencia[0];
+        for(int i = 1; i < RESOLUCAO_DE_CONTRASTE; i++)
+            frequenciaAcumulada[i] = frequencia[i] + frequenciaAcumulada[i-1];
 
     }
 
@@ -182,6 +191,9 @@ public class MyImage {
                     case "split":
                         imgDestino[lin][col] = splitting(imgOrigin[lin][col], (int) valorAuxiliar);
                         break;
+                    case "equalizacao":
+                        imgDestino[lin][col] = equalizacao(imgOrigin[lin][col]);
+                        break;
                     case "gradiente":
                         imgDestino[lin][col] = gradienteHV(imgOrigin, col, lin);
                         break;
@@ -259,11 +271,13 @@ public class MyImage {
         return (pixel > RESOLUCAO_DE_CONTRASTE / 2) ? verificaLimites(pixel + jump) : verificaLimites(pixel - jump);
     }
 
-    public int equalizacao() {
+    public int equalizacao(int pixel) {
         int numeroIdeal = (altura * largura) / RESOLUCAO_DE_CONTRASTE;
 
+        int pixelEqualizado = frequenciaAcumulada[pixel] / numeroIdeal;
+        if (0 > pixelEqualizado - 1) pixelEqualizado = 0;
 
-        return 0;
+        return pixelEqualizado;
     }
 
     public int passaAlta(int[][] imgOrigin, int col, int lin){
@@ -378,15 +392,8 @@ public class MyImage {
         imagemFiltrada.setTipo("Tratada");
         imagemFiltrada.criaArquivo();
         imagemFiltrada.carregaImagem();
-//        int menorFrequencia = imagemOriginal.menorFrequencia();
-//        System.out.println(menorFrequencia + "XXXXX");
 
-		imagemFiltrada.filtraImagem("limiarDinamica",0);
-
-		imagemOriginal.printaValores();
-
-		imagemFiltrada.printHistograma();
-        imagemOriginal.printHistograma();
+        imagemFiltrada.filtraImagem("equalizacao",0);
 
         ImageIcon imageIcon = new ImageIcon(imagemOriginal.image);
         JLabel jlabel = new JLabel(imageIcon);
