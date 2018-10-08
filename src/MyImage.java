@@ -115,6 +115,15 @@ public class MyImage {
 
     }
 
+    public int quantidadeTotalDePixel(){
+
+       int totalDePixel = 0;
+        for(int i = 0; i < RESOLUCAO_DE_CONTRASTE; i++)
+            totalDePixel = frequencia[i];
+
+        return totalDePixel;
+    }
+
     public int menorFrequencia(){
      int menorValor = RESOLUCAO_DE_CONTRASTE;
         for (int x = 0; x < RESOLUCAO_DE_CONTRASTE; x++){
@@ -229,6 +238,18 @@ public class MyImage {
                         break;
                     case "limiarPassaAlta":
                         imgDestino[lin][col] = limiarizacao(imgOrigin,col,lin,valorAuxiliar);
+                        break;
+                    case "mascaraHorizontal":
+                        imgDestino[lin][col] = mascaraHorizontal(imgOrigin,col,lin);
+                        break;
+                    case "mascaraVertical":
+                        imgDestino[lin][col] = mascaraVertical(imgOrigin,col,lin);
+                        break;
+                    case "mascara+45":
+                        imgDestino[lin][col] = mascaraInclinadaPositiva(imgOrigin,col,lin);
+                        break;
+                    case "mascara-45":
+                        imgDestino[lin][col] = mascaraInclinadaNegativa(imgOrigin,col,lin);
                         break;
 
                 }
@@ -365,8 +386,52 @@ public class MyImage {
     }
 
     public void printHistograma() {
+        armazenaFrequencia();
         BarPlotHistogram hist = new BarPlotHistogram(frequencia, tipo);
     }
+
+    public int mascaraHorizontal(int[][] imgOrigin, int col, int lin){
+        int pixelAltura = 0;
+        for (int linha = 0; linha < 3; linha++)
+            for (int coluna = 0; coluna < 3; coluna++)
+                pixelAltura += imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_HORIZONTAL[linha][coluna];
+
+
+        return verificaLimites(pixelAltura);
+    }
+
+    public int mascaraVertical(int[][] imgOrigin, int col, int lin){
+        int pixelAltura = 0;
+        for (int linha = 0; linha < 3; linha++)
+            for (int coluna = 0; coluna < 3; coluna++)
+                pixelAltura += imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_VERTICAL[linha][coluna];
+
+
+        return verificaLimites(pixelAltura);
+    }
+
+    public int mascaraInclinadaPositiva(int[][] imgOrigin, int col, int lin){
+        int pixelAltura = 0;
+        for (int linha = 0; linha < 3; linha++)
+            for (int coluna = 0; coluna < 3; coluna++)
+                pixelAltura += imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_45_POSITIVO[linha][coluna];
+
+
+        return verificaLimites(pixelAltura);
+    }
+
+    public int mascaraInclinadaNegativa(int[][] imgOrigin, int col, int lin){
+        int pixelAltura = 0;
+        for (int linha = 0; linha < 3; linha++)
+            for (int coluna = 0; coluna < 3; coluna++)
+                pixelAltura += imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_45_NEGATIVO[linha][coluna];
+
+
+        return verificaLimites(pixelAltura);
+    }
+
+
+
 
     public int limiarizacao(int[][] imgOrigin, int col, int lin, double limiar){
        return (imgOrigin[lin][col] > limiar)
@@ -401,7 +466,11 @@ public class MyImage {
         imagemFiltrada.criaArquivo();
         imagemFiltrada.carregaImagem();
 
-        imagemFiltrada.filtraImagem("limiarPassaAlta",100);
+        imagemFiltrada.filtraImagem("equalizacao",90);
+
+        imagemFiltrada.printHistograma();
+        imagemOriginal.printHistograma();
+
 
         ImageIcon imageIcon = new ImageIcon(imagemOriginal.image);
         JLabel jlabel = new JLabel(imageIcon);
