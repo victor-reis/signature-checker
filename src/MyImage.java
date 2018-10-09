@@ -1,18 +1,21 @@
+import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import static com.sun.java.accessibility.util.AWTEventMonitor.addMouseListener;
 
 public class MyImage {
 
 
     public static int RESOLUCAO_DE_CONTRASTE = 255;
-    public static int VIZINHA = 2;
+    public static int VIZINHA = 1;
     public static int[][] MASCARA_DE_SOBEL = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};
     public static int[][] MASCARA_DE_PREWITT = {{1,0, 1}, {0, 0, 0}, {-1, -1, -1}};
     public static int[][] MASCARA_DE_PASSA_ALTA = {{-1,-1,-1}, {-1,8,-1}, {-1, -1, -1}};
@@ -21,6 +24,7 @@ public class MyImage {
     public static int[][] MASCARA_45_POSITIVO = {{-1,-1,2},{-1,2,-1},{2,-1,-1}};
     public static int[][] MASCARA_45_NEGATIVO = {{2,-1,-1},{-1,2,-1},{-1,-1,2}};
     public static int[][] MASCARA_LAPLACIANO = {{0,-1,0},{-1,4,-1},{0,-1,0}};
+    public static int CONTADOR_SEMENTE_EXPANDIDA = 0;
 
     public static double CONSTANTE_DIFERENCA = 1;
 
@@ -51,6 +55,10 @@ public class MyImage {
 
     public void setAltura(int altura) {
         this.altura = altura;
+    }
+
+    public Point defineSemente(){
+     return new Point(largura/2,altura/2);
     }
 
     public boolean criaArquivo() {
@@ -166,14 +174,8 @@ public class MyImage {
 
     }
 
-    public void filtraImagem(String tipoDeFiltro, double valorAuxiliar) {
+    public int[][] criaMatriz(BufferedImage image){
         int[][] imgOrigin = new int[getAltura()][getLargura()];
-        int[][] imgDestino = new int[getAltura()][getLargura()];
-
-        VIZINHA = VIZINHA/2;
-        int alturaVizinha = getAltura() - VIZINHA - 1;
-        int larguraVizinha = getLargura() - VIZINHA - 1;
-
 
         for (int lin = 0; lin < getAltura(); lin++) {
             for (int col = 0; col < getLargura(); col++) {
@@ -185,6 +187,18 @@ public class MyImage {
 
             }
         }
+        return imgOrigin;
+    }
+
+    public void filtraImagem(String tipoDeFiltro, double valorAuxiliar) {
+        int[][] imgOrigin = criaMatriz(image);
+        int[][] imgDestino = new int[getAltura()][getLargura()];
+
+        int alturaVizinha = getAltura() - VIZINHA - 1;
+        int larguraVizinha = getLargura() - VIZINHA - 1;
+
+
+
         for (int lin = VIZINHA; lin < alturaVizinha; lin++)
             for (int col = VIZINHA; col < larguraVizinha; col++)
                 switch (tipoDeFiltro) {
@@ -237,28 +251,10 @@ public class MyImage {
                         imgDestino[lin][col] = limiarizacaoDinamica(imgOrigin, col, lin);
                         break;
                     case "limiarPassaAlta":
-                        imgDestino[lin][col] = limiarizacao(imgOrigin,col,lin,valorAuxiliar);
+                        imgDestino[lin][col] = limiarizacaoPassaAlta(imgOrigin,col,lin,(int)valorAuxiliar);
                         break;
-                    case "mascaraHorizontal":
-                        imgDestino[lin][col] = mascaraHorizontal(imgOrigin,col,lin);
-                        break;
-                    case "mascaraVertical":
-                        imgDestino[lin][col] = mascaraVertical(imgOrigin,col,lin);
-                        break;
-                    case "mascara+45":
-                        imgDestino[lin][col] = mascaraInclinadaPositiva(imgOrigin,col,lin);
-                        break;
-                    case "mascara-45":
-                        imgDestino[lin][col] = mascaraInclinadaNegativa(imgOrigin,col,lin);
-                        break;
-
                 }
-        for (int lin = 1; lin < getAltura() - 2; lin++) {
-            for (int col = 1; col < getLargura() - 2; col++) {
-                Color novoPixel = new Color(imgDestino[lin][col], imgDestino[lin][col], imgDestino[lin][col]);
-                image.setRGB(col, lin, novoPixel.getRGB());
-            }
-        }
+        pintaImagem(imgDestino);
        }
 
     public double calculaMedia(int[][] imgOrigin, int col, int lin) {
@@ -390,6 +386,66 @@ public class MyImage {
         BarPlotHistogram hist = new BarPlotHistogram(frequencia, tipo);
     }
 
+    public void verificaInclinacao(){
+        String inclinacao = "XXXX";
+
+        int[][] imgOrigin = criaMatriz(image);
+
+        int[] pixel = new int[4];// H,V,+45,-45
+        int[] pontuacao = new int[4];
+
+        int alturaVizinha = getAltura() - VIZINHA - 1;
+        int larguraVizinha = getLargura() - VIZINHA - 1;
+
+        int maiorValor;
+        int indicePixel;
+
+        for (int lin = VIZINHA; lin < alturaVizinha; lin++)
+            for (int col = VIZINHA; col < larguraVizinha; col++){
+                pixel[0] = mascaraHorizontal(imgOrigin,col,lin);
+                pixel[1] = mascaraVertical(imgOrigin,col,lin);
+                pixel[2] = mascaraInclinadaPositiva(imgOrigin,col,lin);
+                pixel[3] = mascaraInclinadaNegativa(imgOrigin,col,lin);
+
+                maiorValor=-1;
+                indicePixel=-1;
+                for(int i = 0; i < pontuacao.length; i++)
+                    if(pixel[i] > maiorValor){
+                        maiorValor = pixel[i];
+                        indicePixel = i;
+                    }
+                pontuacao[indicePixel]++;
+            }
+
+        int sum = 0, pos=0;
+
+        for (int counter = 0; counter < pontuacao.length; counter++)
+            if (pontuacao[counter] > sum){
+                sum = pontuacao[counter];
+                pos = counter;
+            }
+
+            switch (pos){
+                case 0:
+                    inclinacao = "horizontal";
+                    break;
+                case 1:
+                    inclinacao = "vertical";
+                    break;
+                case 2:
+                    inclinacao = "45º Positivos";
+                    break;
+                case 3:
+                    inclinacao = "45º Negativos";
+                    break;
+                default:
+                    inclinacao = "nada";
+                    break;
+            }
+
+        System.out.println(inclinacao);
+    }
+
     public int mascaraHorizontal(int[][] imgOrigin, int col, int lin){
         int pixelAltura = 0;
         for (int linha = 0; linha < 3; linha++)
@@ -430,12 +486,9 @@ public class MyImage {
         return verificaLimites(pixelAltura);
     }
 
-
-
-
     public int limiarizacao(int[][] imgOrigin, int col, int lin, double limiar){
        return (imgOrigin[lin][col] > limiar)
-               ?RESOLUCAO_DE_CONTRASTE
+               ?imgOrigin[lin][col]
                :0;
     }
 
@@ -453,6 +506,32 @@ public class MyImage {
         return (pixelPassaAlta > limiar) ? pixelPassaAlta : 0;
         }
 
+    public Boolean agregaPixel (int col, int lin, int[][]imgAgregada){
+        if (imgAgregada[col][lin] == 255 || imgAgregada[col][lin] == 100) return false;
+        imgAgregada[col][lin] = 100;
+        CONTADOR_SEMENTE_EXPANDIDA++;
+        agregaPixel(col-1,lin-1,imgAgregada);
+        agregaPixel(col,lin-1,imgAgregada);
+        agregaPixel(col+1,lin-1,imgAgregada);
+        agregaPixel(col-1,lin,imgAgregada);
+        agregaPixel(col+1,lin,imgAgregada);
+        agregaPixel(col-1,lin+1,imgAgregada);
+        agregaPixel(col-1,lin+1,imgAgregada);
+        agregaPixel(col,lin+1,imgAgregada);
+        agregaPixel(col+1,lin+1,imgAgregada);
+
+        return true;
+    }
+
+    public void pintaImagem(int[][]imgAgregada){
+        for (int lin = 1; lin < getAltura() - 2; lin++) {
+            for (int col = 1; col < getLargura() - 2; col++) {
+                Color novoPixel = new Color(imgAgregada[lin][col], imgAgregada[lin][col], imgAgregada[lin][col]);
+                image.setRGB(col, lin, novoPixel.getRGB());
+            }
+        }
+    }
+
     public static void main(String args[]) throws IOException {
 
 
@@ -466,11 +545,18 @@ public class MyImage {
         imagemFiltrada.criaArquivo();
         imagemFiltrada.carregaImagem();
 
-        imagemFiltrada.filtraImagem("equalizacao",90);
+   //   imagemFiltrada.verificaInclinacao();
 
-        imagemFiltrada.printHistograma();
-        imagemOriginal.printHistograma();
+//        int[][]matrizSemente = imagemOriginal.criaMatriz(imagemOriginal.image);
+//        Point ponto = imagemFiltrada.defineSemente();
+//        int col = ponto.y;
+//        int lin = ponto.x;
+//        imagemFiltrada.agregaPixel(col,lin,matrizSemente);
+//        imagemFiltrada.pintaImagem(matrizSemente);
+//        System.out.println("A quantidade de pixels pintados foi: "+ CONTADOR_SEMENTE_EXPANDIDA);
 
+
+        imagemFiltrada.filtraImagem("limiar",90);
 
         ImageIcon imageIcon = new ImageIcon(imagemOriginal.image);
         JLabel jlabel = new JLabel(imageIcon);
@@ -484,12 +570,20 @@ public class MyImage {
         painel.add(jlabel1);
 
 
+
         JFrame janela = new JFrame("Computação gráfica");
 
         janela.add(painel);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       // janela.setSize(1150, 500);
         janela.pack();
         janela.setVisible(true);
+        janela.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                int x = e.getX();
+                System.out.println(x);
+                int y = e.getY();
+                System.out.println(y);
+            }
+        });
     }
 }
