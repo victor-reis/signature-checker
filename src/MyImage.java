@@ -16,6 +16,7 @@ public class MyImage {
 
     public static int RESOLUCAO_DE_CONTRASTE = 255;
     public static int VIZINHA = 1;
+    public static int[][] MASCARA_PADRAO = {{1, 1, 1}, {1, 1, 1}, {1, 1, 1}};
     public static int[][] MASCARA_DE_SOBEL = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};
     public static int[][] MASCARA_DE_PREWITT = {{1,0, 1}, {0, 0, 0}, {-1, -1, -1}};
     public static int[][] MASCARA_DE_PASSA_ALTA = {{-1,-1,-1}, {-1,8,-1}, {-1, -1, -1}};
@@ -28,8 +29,8 @@ public class MyImage {
 
     public static double CONSTANTE_DIFERENCA = 1;
 
-    int largura = 640;
-    int altura = 378;
+    int largura = 50;
+    int altura = 50;
     BufferedImage image = null;
     File diretorio = null;
     int frequencia[] = new int[256];
@@ -64,7 +65,7 @@ public class MyImage {
     public boolean criaArquivo() {
 
         try {
-            diretorio = new File("/home/victor-reis/Pictures/bwimg.jpg");
+            diretorio = new File("/home/victor-reis/Pictures/vertical.png");
             System.out.println("Arquivo lido com sucesso!");
         } catch (Exception e) {
             System.out.println("Arquivo nao existe ou diretorio eh invalido!");
@@ -386,13 +387,13 @@ public class MyImage {
         BarPlotHistogram hist = new BarPlotHistogram(frequencia, tipo);
     }
 
-    public void verificaInclinacao(){
+    public String verificaInclinacao(){
         String inclinacao = "XXXX";
 
         int[][] imgOrigin = criaMatriz(image);
 
-        int[] pixel = new int[4];// H,V,+45,-45
-        int[] pontuacao = new int[4];
+        int[] pixel = new int[5];// V,H,+45,-45,empate
+        int[] pontuacao = new int[5];
 
         int alturaVizinha = getAltura() - VIZINHA - 1;
         int larguraVizinha = getLargura() - VIZINHA - 1;
@@ -402,14 +403,14 @@ public class MyImage {
 
         for (int lin = VIZINHA; lin < alturaVizinha; lin++)
             for (int col = VIZINHA; col < larguraVizinha; col++){
-                pixel[0] = mascaraHorizontal(imgOrigin,col,lin);
-                pixel[1] = mascaraVertical(imgOrigin,col,lin);
-                pixel[2] = mascaraInclinadaPositiva(imgOrigin,col,lin);
-                pixel[3] = mascaraInclinadaNegativa(imgOrigin,col,lin);
+                pixel[0] = rodaMascaraGeneric(imgOrigin,col,lin,"horizontal");
+                pixel[1] = rodaMascaraGeneric(imgOrigin,col,lin,"vertical");
+                pixel[2] = rodaMascaraGeneric(imgOrigin,col,lin,"45+");
+                pixel[3] = rodaMascaraGeneric(imgOrigin,col,lin,"45-");
 
-                maiorValor=-1;
-                indicePixel=-1;
-                for(int i = 0; i < pontuacao.length; i++)
+                maiorValor=0;
+                indicePixel=4;
+                for(int i = 0; i < pontuacao.length - 1; i++)
                     if(pixel[i] > maiorValor){
                         maiorValor = pixel[i];
                         indicePixel = i;
@@ -419,7 +420,7 @@ public class MyImage {
 
         int sum = 0, pos=0;
 
-        for (int counter = 0; counter < pontuacao.length; counter++)
+        for (int counter = 0; counter < pontuacao.length - 1; counter++)
             if (pontuacao[counter] > sum){
                 sum = pontuacao[counter];
                 pos = counter;
@@ -433,54 +434,43 @@ public class MyImage {
                     inclinacao = "vertical";
                     break;
                 case 2:
-                    inclinacao = "45º Positivos";
+                    inclinacao = "45+";
                     break;
                 case 3:
-                    inclinacao = "45º Negativos";
+                    inclinacao = "45-";
                     break;
                 default:
                     inclinacao = "nada";
                     break;
             }
 
-        System.out.println(inclinacao);
+//        System.out.println(inclinacao);
+        return inclinacao;
     }
 
-    public int mascaraHorizontal(int[][] imgOrigin, int col, int lin){
+    public int rodaMascaraGeneric(int[][] imgOrigin, int col, int lin, String mask){
+    int[][] mascara;
+        switch(mask){
+            case "vertical":
+            mascara = MASCARA_VERTICAL;
+            break;
+            case "horizontal":
+            mascara = MASCARA_HORIZONTAL;
+            break;
+            case "45+":
+            mascara = MASCARA_45_POSITIVO;
+            break;
+            case "45-":
+            mascara = MASCARA_45_NEGATIVO;
+            break;
+            default:
+                mascara = MASCARA_PADRAO;
+        }
+
         int pixelAltura = 0;
         for (int linha = 0; linha < 3; linha++)
             for (int coluna = 0; coluna < 3; coluna++)
-                pixelAltura += imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_HORIZONTAL[linha][coluna];
-
-
-        return verificaLimites(pixelAltura);
-    }
-
-    public int mascaraVertical(int[][] imgOrigin, int col, int lin){
-        int pixelAltura = 0;
-        for (int linha = 0; linha < 3; linha++)
-            for (int coluna = 0; coluna < 3; coluna++)
-                pixelAltura += imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_VERTICAL[linha][coluna];
-
-
-        return verificaLimites(pixelAltura);
-    }
-
-    public int mascaraInclinadaPositiva(int[][] imgOrigin, int col, int lin){
-        int pixelAltura = 0;
-        for (int linha = 0; linha < 3; linha++)
-            for (int coluna = 0; coluna < 3; coluna++)
-                pixelAltura += imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_45_POSITIVO[linha][coluna];
-
-
-        return verificaLimites(pixelAltura);
-    }
-
-    public int mascaraInclinadaNegativa(int[][] imgOrigin, int col, int lin){
-        int pixelAltura = 0;
-        for (int linha = 0; linha < 3; linha++)
-            for (int coluna = 0; coluna < 3; coluna++)
-                pixelAltura += imgOrigin[lin + linha - 1][col + coluna - 1] * MASCARA_45_NEGATIVO[linha][coluna];
+                pixelAltura += imgOrigin[lin + linha - 1][col + coluna - 1] * mascara[linha][coluna];
 
 
         return verificaLimites(pixelAltura);
@@ -545,7 +535,7 @@ public class MyImage {
         imagemFiltrada.criaArquivo();
         imagemFiltrada.carregaImagem();
 
-   //   imagemFiltrada.verificaInclinacao();
+        imagemFiltrada.verificaInclinacao();
 
 //        int[][]matrizSemente = imagemOriginal.criaMatriz(imagemOriginal.image);
 //        Point ponto = imagemFiltrada.defineSemente();
@@ -556,22 +546,22 @@ public class MyImage {
 //        System.out.println("A quantidade de pixels pintados foi: "+ CONTADOR_SEMENTE_EXPANDIDA);
 
 
-        imagemFiltrada.filtraImagem("limiar",90);
+  //      imagemFiltrada.filtraImagem("limiarPassaAlta",90);
 
         ImageIcon imageIcon = new ImageIcon(imagemOriginal.image);
         JLabel jlabel = new JLabel(imageIcon);
 
-        ImageIcon imageIcon1 = new ImageIcon(imagemFiltrada.image);
-        JLabel jlabel1 = new JLabel(imageIcon1);
+//        ImageIcon imageIcon1 = new ImageIcon(imagemFiltrada.image);
+//        JLabel jlabel1 = new JLabel(imageIcon1);
 
 
         JPanel painel = new JPanel();
         painel.add(jlabel);
-        painel.add(jlabel1);
+     //   painel.add(jlabel1);
 
 
 
-        JFrame janela = new JFrame("Computação gráfica");
+        JFrame janela = new JFrame(imagemFiltrada.verificaInclinacao());
 
         janela.add(painel);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
