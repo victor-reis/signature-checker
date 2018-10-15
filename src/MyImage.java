@@ -29,8 +29,8 @@ public class MyImage {
 
     public static double CONSTANTE_DIFERENCA = 1;
 
-    int largura = 50;
-    int altura = 50;
+    int largura = 640;
+    int altura = 378;
     BufferedImage image = null;
     File diretorio = null;
     int frequencia[] = new int[256];
@@ -65,7 +65,7 @@ public class MyImage {
     public boolean criaArquivo() {
 
         try {
-            diretorio = new File("/home/victor-reis/Pictures/vertical.png");
+            diretorio = new File("/home/victor-reis/Pictures/semente.png");
             System.out.println("Arquivo lido com sucesso!");
         } catch (Exception e) {
             System.out.println("Arquivo nao existe ou diretorio eh invalido!");
@@ -434,10 +434,10 @@ public class MyImage {
                     inclinacao = "vertical";
                     break;
                 case 2:
-                    inclinacao = "45+";
+                    inclinacao = "45-";
                     break;
                 case 3:
-                    inclinacao = "45-";
+                    inclinacao = "45+";
                     break;
                 default:
                     inclinacao = "nada";
@@ -476,11 +476,11 @@ public class MyImage {
         return verificaLimites(pixelAltura);
     }
 
-    public int limiarizacao(int[][] imgOrigin, int col, int lin, double limiar){
-       return (imgOrigin[lin][col] > limiar)
-               ?imgOrigin[lin][col]
-               :0;
-    }
+        public int limiarizacao(int[][] imgOrigin, int col, int lin, double limiar){
+           return (imgOrigin[lin][col] > limiar)
+                   ?imgOrigin[lin][col]
+                   :0;
+        }
 
     public int limiarizacaoMedia(int[][] imgOrigin, int col, int lin){
         return  limiarizacao(imgOrigin,col,lin ,CONSTANTE_DIFERENCA * calculaMedia(imgOrigin,col, lin));
@@ -535,15 +535,13 @@ public class MyImage {
         imagemFiltrada.criaArquivo();
         imagemFiltrada.carregaImagem();
 
-        imagemFiltrada.verificaInclinacao();
-
-//        int[][]matrizSemente = imagemOriginal.criaMatriz(imagemOriginal.image);
-//        Point ponto = imagemFiltrada.defineSemente();
-//        int col = ponto.y;
-//        int lin = ponto.x;
-//        imagemFiltrada.agregaPixel(col,lin,matrizSemente);
-//        imagemFiltrada.pintaImagem(matrizSemente);
-//        System.out.println("A quantidade de pixels pintados foi: "+ CONTADOR_SEMENTE_EXPANDIDA);
+        int[][]matrizSemente = imagemOriginal.criaMatriz(imagemOriginal.image);
+        Point ponto = imagemFiltrada.defineSemente();
+        int col = ponto.y;
+        int lin = ponto.x;
+        imagemFiltrada.agregaPixel(col,lin,matrizSemente);
+        imagemFiltrada.pintaImagem(matrizSemente);
+        System.out.println("A quantidade de pixels pintados foi: "+ CONTADOR_SEMENTE_EXPANDIDA);
 
 
   //      imagemFiltrada.filtraImagem("limiarPassaAlta",90);
@@ -551,17 +549,17 @@ public class MyImage {
         ImageIcon imageIcon = new ImageIcon(imagemOriginal.image);
         JLabel jlabel = new JLabel(imageIcon);
 
-//        ImageIcon imageIcon1 = new ImageIcon(imagemFiltrada.image);
-//        JLabel jlabel1 = new JLabel(imageIcon1);
+        ImageIcon imageIcon1 = new ImageIcon(imagemFiltrada.image);
+        JLabel jlabel1 = new JLabel(imageIcon1);
 
 
         JPanel painel = new JPanel();
         painel.add(jlabel);
-     //   painel.add(jlabel1);
+      painel.add(jlabel1);
 
 
 
-        JFrame janela = new JFrame(imagemFiltrada.verificaInclinacao());
+        JFrame janela = new JFrame(imagemFiltrada.tipo);
 
         janela.add(painel);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
