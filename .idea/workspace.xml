@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c62458e-c251-4381-b1ee-24da28223f78" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Esqueletizacao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/signature-checker/BarPlotHistogram$Graph.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/signature-checker/BarPlotHistogram.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/signature-checker/MyImage.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MyImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyImage.java" afterDir="false" />
     </list>
@@ -17,32 +21,37 @@
     <session id="501784760">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
-          <entry key="project.open.time.1" value="1" />
-          <entry key="project.open.time.2" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.closed" value="14" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.open.time.1" value="4" />
+          <entry key="project.open.time.2" value="4" />
+          <entry key="project.open.time.31" value="2" />
+          <entry key="project.open.time.32" value="1" />
+          <entry key="project.open.time.33" value="2" />
+          <entry key="project.open.time.44" value="1" />
+          <entry key="project.opened" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="gitignore" value="1" />
-          <entry key="java" value="3" />
+          <entry key="java" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="3" />
+          <entry key="JAVA" value="11" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="3835" />
+          <entry key="java" value="13411" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="3835" />
+          <entry key="JAVA" value="13411" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -82,83 +91,54 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/MyImage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="25" column="50" lean-forward="true" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1349#1350#0" expanded="true" />
-                <element signature="e#1381#1382#0" expanded="true" />
-                <element signature="e#1412#1413#0" expanded="true" />
-                <element signature="e#1442#1443#0" expanded="true" />
-                <element signature="e#1485#1486#0" expanded="true" />
-                <element signature="e#1523#1524#0" expanded="true" />
-                <element signature="e#1553#1554#0" expanded="true" />
-                <element signature="e#1582#1583#0" expanded="true" />
-                <element signature="e#1623#1624#0" expanded="true" />
-                <element signature="e#1659#1660#0" expanded="true" />
-                <element signature="method#criaArquivo#0;class#MyImage#0" />
-                <element signature="method#carregaImagem#0;class#MyImage#0" />
-                <element signature="method#escreveImagem#0;class#MyImage#0" />
-                <element signature="method#armazenaFrequencia#0;class#MyImage#0" />
-                <element signature="method#menorFrequencia#0;class#MyImage#0" />
-                <element signature="e#3453#3454#0" expanded="true" />
-                <element signature="e#3523#3524#0" expanded="true" />
-                <element signature="method#verificaLimites#0;class#MyImage#0" />
-                <element signature="method#alteraBrilho#0;class#MyImage#0" />
-                <element signature="method#calculaMediana#0;class#MyImage#0" />
-                <element signature="method#quantizacao#0;class#MyImage#0" />
-                <element signature="method#splitting#0;class#MyImage#0" />
-                <element signature="method#equalizacao#0;class#MyImage#0" />
-                <element signature="method#passaAlta#0;class#MyImage#0" />
-                <element signature="method#gradienteHV#0;class#MyImage#0" />
-                <element signature="method#gradienteHorizontal#0;class#MyImage#0" />
-                <element signature="method#gradienteVertical#0;class#MyImage#0" />
-                <element signature="method#sobelHorizontal#0;class#MyImage#0" />
-                <element signature="method#sobelVertical#0;class#MyImage#0" />
-                <element signature="method#sobelHV#0;class#MyImage#0" />
-                <element signature="method#prewittHorizontal#0;class#MyImage#0" />
-                <element signature="method#prewittVertical#0;class#MyImage#0" />
-                <element signature="method#prewittHV#0;class#MyImage#0" />
-                <element signature="e#12117#12118#0" expanded="true" />
-                <element signature="e#12195#12196#0" expanded="true" />
-                <element signature="method#limiarizacao#0;class#MyImage#0" />
-                <element signature="method#limiarizacaoMedia#0;class#MyImage#0" />
-                <element signature="e#11928#12107#0" />
-              </folding>
+            <state relative-caret-position="9420">
+              <caret line="647" column="9" selection-start-line="626" selection-start-column="12" selection-end-line="647" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/BarPlotHistogram.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Esqueletizacao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="25" column="36" selection-end-line="99" selection-end-column="1" />
+            <state relative-caret-position="103">
+              <caret line="133" selection-start-line="133" selection-end-line="133" />
               <folding>
-                <element signature="method#main#0;class#BarPlotHistogram#0" />
-                <element signature="e#454#503#0" />
-                <element signature="method#BarPlotHistogram#0;class#BarPlotHistogram#0" />
-                <element signature="class#Graph#0;class#BarPlotHistogram#0" />
-                <element signature="method#Graph#0;class#Graph#0;class#BarPlotHistogram#0" />
-                <element signature="method#paintComponent#0;class#Graph#0;class#BarPlotHistogram#0" />
+                <element signature="method#setDimensoes#0;class#Esqueletizacao#0" />
+                <element signature="method#criaArquivo#0;class#Esqueletizacao#0" />
+                <element signature="method#carregaImagem#0;class#Esqueletizacao#0" />
+                <element signature="method#escreveImagem#0;class#Esqueletizacao#0" />
+                <element signature="method#pintaImagem#0;class#Esqueletizacao#0" />
+                <element signature="method#numPixelsImage#0;class#Esqueletizacao#0" />
+                <element signature="method#main#0;class#Esqueletizacao#0" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="22" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>ho</find>
+      <find>switch</find>
+      <find>media</find>
+      <find>criaMatriz</find>
+      <find>agrega</find>
+      <find>mediana</find>
+      <find>filtra</find>
+      <find>cria</find>
+      <find>-1</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -175,14 +155,17 @@
       <list>
         <option value="$PROJECT_DIR$/src/BarPlotHistogram.java" />
         <option value="$PROJECT_DIR$/out/.gitignore" />
+        <option value="$PROJECT_DIR$/src/ProcessadorDeImagem.java" />
         <option value="$PROJECT_DIR$/src/MyImage.java" />
+        <option value="$PROJECT_DIR$/src/Esqueletizacao.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="25" />
-    <option name="width" value="1366" />
-    <option name="height" value="371" />
+    <option name="x" value="684" />
+    <option name="y" value="27" />
+    <option name="width" value="672" />
+    <option name="height" value="741" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -190,8 +173,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -202,27 +183,19 @@
             <path>
               <item name="signature-checker" type="b2602c69:ProjectViewProjectNode" />
               <item name="signature-checker" type="462c0819:PsiDirectoryNode" />
-              <item name=".idea" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="signature-checker" type="b2602c69:ProjectViewProjectNode" />
-              <item name="signature-checker" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="signature-checker" type="b2602c69:ProjectViewProjectNode" />
-              <item name="signature-checker" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538443292930" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540429288470" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
@@ -242,16 +215,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
-    <configuration name="MyImage" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="MyImage" />
-      <module name="signature-checker" />
+  <component name="RunManager" selected="Application.Esqueletizacao">
+    <configuration name="Esqueletizacao" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Esqueletizacao" />
+      <module name="Exercicios-cg" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MyImage" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MyImage" />
+      <module name="Exercicios-cg" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.MyImage" />
+      <item itemvalue="Application.Esqueletizacao" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Esqueletizacao" />
         <item itemvalue="Application.MyImage" />
       </list>
     </recent_temporary>
@@ -270,10 +255,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="25" width="1366" height="742" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="26" width="1366" height="741" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.275" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -281,16 +265,16 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32901135" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3987034" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32954547" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49924242" weight="0.32467532" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.41396105" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.3273906" />
-      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49924242" weight="0.31493506" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5007576" side_tool="true" weight="0.3262987" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32901135" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.32901135" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32792208" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -303,6 +287,24 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Esqueletizacao.java</url>
+          <line>133</line>
+          <properties />
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Esqueletizacao.java</url>
+          <line>200</line>
+          <properties />
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/out/.gitignore" />
@@ -319,63 +321,59 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/BarPlotHistogram.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="25" column="36" selection-end-line="99" selection-end-column="1" />
-          <folding>
-            <element signature="method#main#0;class#BarPlotHistogram#0" />
-            <element signature="e#454#503#0" />
-            <element signature="method#BarPlotHistogram#0;class#BarPlotHistogram#0" />
-            <element signature="class#Graph#0;class#BarPlotHistogram#0" />
-            <element signature="method#Graph#0;class#Graph#0;class#BarPlotHistogram#0" />
-            <element signature="method#paintComponent#0;class#Graph#0;class#BarPlotHistogram#0" />
-          </folding>
+        <state relative-caret-position="60">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
     </entry>
+    <entry file="jar:///usr/lib/jvm/java-8-openjdk-amd64/src.zip!/java/awt/Point.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-30">
+          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/java-8-openjdk-amd64/src.zip!/java/awt/event/MouseListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="62" column="23" selection-start-line="62" selection-start-column="23" selection-end-line="62" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/java-8-openjdk-amd64/src.zip!/java/awt/Component.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="5694" column="55" selection-start-line="5694" selection-start-column="55" selection-end-line="5694" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/java-8-openjdk-amd64/src.zip!/java/awt/event/MouseAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="73" column="28" selection-start-line="73" selection-start-column="16" selection-end-line="73" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ProcessadorDeImagem.java" />
     <entry file="file://$PROJECT_DIR$/src/MyImage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="25" column="50" lean-forward="true" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
+        <state relative-caret-position="9420">
+          <caret line="647" column="9" selection-start-line="626" selection-start-column="12" selection-end-line="647" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Esqueletizacao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="133" selection-start-line="133" selection-end-line="133" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1349#1350#0" expanded="true" />
-            <element signature="e#1381#1382#0" expanded="true" />
-            <element signature="e#1412#1413#0" expanded="true" />
-            <element signature="e#1442#1443#0" expanded="true" />
-            <element signature="e#1485#1486#0" expanded="true" />
-            <element signature="e#1523#1524#0" expanded="true" />
-            <element signature="e#1553#1554#0" expanded="true" />
-            <element signature="e#1582#1583#0" expanded="true" />
-            <element signature="e#1623#1624#0" expanded="true" />
-            <element signature="e#1659#1660#0" expanded="true" />
-            <element signature="method#criaArquivo#0;class#MyImage#0" />
-            <element signature="method#carregaImagem#0;class#MyImage#0" />
-            <element signature="method#escreveImagem#0;class#MyImage#0" />
-            <element signature="method#armazenaFrequencia#0;class#MyImage#0" />
-            <element signature="method#menorFrequencia#0;class#MyImage#0" />
-            <element signature="e#3453#3454#0" expanded="true" />
-            <element signature="e#3523#3524#0" expanded="true" />
-            <element signature="method#verificaLimites#0;class#MyImage#0" />
-            <element signature="method#alteraBrilho#0;class#MyImage#0" />
-            <element signature="method#calculaMediana#0;class#MyImage#0" />
-            <element signature="method#quantizacao#0;class#MyImage#0" />
-            <element signature="method#splitting#0;class#MyImage#0" />
-            <element signature="method#equalizacao#0;class#MyImage#0" />
-            <element signature="method#passaAlta#0;class#MyImage#0" />
-            <element signature="method#gradienteHV#0;class#MyImage#0" />
-            <element signature="method#gradienteHorizontal#0;class#MyImage#0" />
-            <element signature="method#gradienteVertical#0;class#MyImage#0" />
-            <element signature="method#sobelHorizontal#0;class#MyImage#0" />
-            <element signature="method#sobelVertical#0;class#MyImage#0" />
-            <element signature="method#sobelHV#0;class#MyImage#0" />
-            <element signature="method#prewittHorizontal#0;class#MyImage#0" />
-            <element signature="method#prewittVertical#0;class#MyImage#0" />
-            <element signature="method#prewittHV#0;class#MyImage#0" />
-            <element signature="e#12117#12118#0" expanded="true" />
-            <element signature="e#12195#12196#0" expanded="true" />
-            <element signature="method#limiarizacao#0;class#MyImage#0" />
-            <element signature="method#limiarizacaoMedia#0;class#MyImage#0" />
-            <element signature="e#11928#12107#0" />
+            <element signature="method#setDimensoes#0;class#Esqueletizacao#0" />
+            <element signature="method#criaArquivo#0;class#Esqueletizacao#0" />
+            <element signature="method#carregaImagem#0;class#Esqueletizacao#0" />
+            <element signature="method#escreveImagem#0;class#Esqueletizacao#0" />
+            <element signature="method#pintaImagem#0;class#Esqueletizacao#0" />
+            <element signature="method#numPixelsImage#0;class#Esqueletizacao#0" />
+            <element signature="method#main#0;class#Esqueletizacao#0" />
           </folding>
         </state>
       </provider>
